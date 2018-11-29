@@ -1,9 +1,14 @@
 import * as express from 'express';
 import * as basicAuth from 'express-basic-auth';
 import { STATUS_CODES } from 'http';
+import { Party } from './birthday';
+
 
 const port = 8080;
-
+const party: Party = {
+    location: "Weistrach",
+    date: "1.1.2020"
+};
 
 //
 // Express setup
@@ -19,7 +24,7 @@ server.use(express.json());
 // Requests
 // 
 server.get('/party', (req, res) => {
-
+    res.send(JSON.stringify(party));
 });
 
 server.post('/register', (req, res) => {
