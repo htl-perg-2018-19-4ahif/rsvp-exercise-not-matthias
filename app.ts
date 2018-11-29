@@ -1,3 +1,4 @@
+import * as loki from 'lokijs';
 import * as express from 'express';
 import * as basicAuth from 'express-basic-auth';
 import { OK, BAD_REQUEST, UNAUTHORIZED } from 'http-status-codes';
@@ -9,17 +10,20 @@ import { Party } from './birthday';
 //
 const port = 8080;
 
+const party: Party = {
+    title: "Matthias' Awesome Birthday Party",
+    location: "Weistrach",
+    date: "1.1.2020"
+};
+
 const users = {
     users: { 'admin': 'admin' }
 };
 
 const auth = basicAuth(users);
 
-const party: Party = {
-    title: "Matthias' Awesome Birthday Party",
-    location: "Weistrach",
-    date: "1.1.2020"
-};
+const database = new loki('party.db')
+
 
 //
 // Express setup
