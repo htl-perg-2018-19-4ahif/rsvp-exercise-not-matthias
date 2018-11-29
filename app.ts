@@ -1,6 +1,7 @@
 import * as express from 'express';
 import * as basicAuth from 'express-basic-auth';
-import { STATUS_CODES } from 'http';
+import { OK, BAD_REQUEST, UNAUTHORIZED } from 'http-status-codes';
+
 import { Party } from './birthday';
 
 //
@@ -34,16 +35,16 @@ server.get('/party', (req, res) => {
 
 server.post('/register', (req, res) => {
     if (!req.body.firstname || !req.body.lastname) {
-        res.status(400);
+        res.status(BAD_REQUEST);
     } else {
         // TODO: add to the list, send response
 
-        res.status(201);
+        res.status(OK);
     }
 });
 
 server.get('/guests', basicAuth(users), (req, res) => {
-
+    res.send(OK);
 });
 
 
