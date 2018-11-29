@@ -31,7 +31,11 @@ server.get('/party', (req, res) => {
 });
 
 server.post('/register', (req, res) => {
-
+    if(!req.body.firstname || !req.body.lastname) {
+        res.status(400);
+    } else {
+        // TODO: add to the list, send response
+    }
 });
 
 server.get('/guests', (req, res) => {
