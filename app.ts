@@ -7,6 +7,11 @@ import { Party } from './birthday';
 // Constants
 //
 const port = 8080;
+
+const users = {
+    users: { 'admin': 'admin' }
+};
+
 const party: Party = {
     title: "Matthias' Awesome Birthday Party",
     location: "Weistrach",
@@ -18,9 +23,6 @@ const party: Party = {
 //
 var server = express();
 server.use(express.json());
-// server.use(basicAuth({
-//   users: { 'admin': 'password' }
-// }));
 
 
 //
@@ -31,14 +33,16 @@ server.get('/party', (req, res) => {
 });
 
 server.post('/register', (req, res) => {
-    if(!req.body.firstname || !req.body.lastname) {
+    if (!req.body.firstname || !req.body.lastname) {
         res.status(400);
     } else {
         // TODO: add to the list, send response
+
+        res.status(201);
     }
 });
 
-server.get('/guests', (req, res) => {
+server.get('/guests', basicAuth(users), (req, res) => {
 
 });
 
