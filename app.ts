@@ -13,6 +13,8 @@ const users = {
     users: { 'admin': 'admin' }
 };
 
+const auth = basicAuth(users);
+
 const party: Party = {
     title: "Matthias' Awesome Birthday Party",
     location: "Weistrach",
@@ -28,23 +30,23 @@ server.use(express.json());
 
 //
 // Requests
-// 
+//
 server.get('/party', (req, res) => {
     res.send(JSON.stringify(party));
 });
 
 server.post('/register', (req, res) => {
     if (!req.body.firstname || !req.body.lastname) {
-        res.status(BAD_REQUEST);
+        res.sendStatus(BAD_REQUEST);
     } else {
         // TODO: add to the list, send response
 
-        res.status(OK);
+        res.sendStatus(OK);
     }
 });
 
-server.get('/guests', basicAuth(users), (req, res) => {
-    res.send(OK);
+server.get('/guests', auth, (req, res) => {
+    res.sendStatus(OK);
 });
 
 
