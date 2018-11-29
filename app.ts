@@ -52,15 +52,7 @@ server.post('/register', (req, res) => {
 });
 
 server.get('/guests', auth, (req, res) => {
-    const data = collection.data;
-
-    // Remove unnecessary data
-    data.forEach(guest => {
-        delete guest.meta;
-        delete guest.$loki;
-    });
-
-    res.send(data);
+    res.send(collection.data.filter(guest => delete guest.meta && delete guest.$loki));
 });
 
 
