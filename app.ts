@@ -1,35 +1,37 @@
 import * as express from 'express';
 import * as basicAuth from 'express-basic-auth';
+import { STATUS_CODES } from 'http';
 
-const port = process.env.PORT || 8080;
+const port = 8080;
 
 
 //
 // Express setup
 //
 var server = express();
-server.use(basicAuth({
-  users: { 'admin': 'password' }
-}));
+server.use(express.json());
+// server.use(basicAuth({
+//   users: { 'admin': 'password' }
+// }));
 
 
 //
 // Requests
 // 
-server.get('/party', function (req, res) {
-  res.send('GET received.')
+server.get('/party', (req, res) => {
+
 });
 
-server.post('/register', function (req, res) {
-  res.send('POST received.');
+server.post('/register', (req, res) => {
+
 });
 
-server.post('/guests', function (req, res) {
-  res.send('GET received.');
+server.get('/guests', (req, res) => {
+
 });
 
 
 //
 // Start the server
 //
-server.listen(port);
+server.listen(port, () => console.log(`[DEBUG] Server listening on port ${port}.`));
