@@ -6,7 +6,7 @@
   "scripts": {
     "start": "ts-node app.ts"
   },
-  "author": "Rainer Stropek",
+  "author": "Matthias Heiden",
   "license": "MIT",
   "dependencies": {
     "express": "^4.16.4",
