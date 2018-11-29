@@ -5,6 +5,7 @@ import { OK, BAD_REQUEST, UNAUTHORIZED } from 'http-status-codes';
 
 import { Party } from './birthday';
 
+
 //
 // Constants
 //
@@ -16,20 +17,43 @@ const party: Party = {
     date: "1.1.2020"
 };
 
+
+// Basic Auth
 const users = {
     users: { 'admin': 'admin' }
 };
 
 const auth = basicAuth(users);
 
-const database = new loki('party.db');
-const collection = database.addCollection('guests');
+
+// Loki
+const lokiConfig = {
+    autoload: true,
+    autoloadCallback: onDatabaseLoad,
+    autosave: true,
+    autosaveInterval: 1000
+};
+
+const database = new loki('birthday-party.db', lokiConfig);
+
+let collection;
+
+
+//
+// Functions
+//
+function onDatabaseLoad() {
+    if (!(collection = database.getCollection('guests'))) {
+        collection = database.addCollection('guests');
+    }
+}
 
 
 //
 // Express setup
 //
-var server = express();
+const server = express();
+
 server.use(express.json());
 
 
