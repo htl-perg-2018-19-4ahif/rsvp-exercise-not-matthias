@@ -3,9 +3,12 @@ import * as basicAuth from 'express-basic-auth';
 import { STATUS_CODES } from 'http';
 import { Party } from './birthday';
 
-
+//
+// Constants
+//
 const port = 8080;
 const party: Party = {
+    title: "Matthias' Awesome Birthday Party",
     location: "Weistrach",
     date: "1.1.2020"
 };
