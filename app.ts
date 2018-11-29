@@ -22,7 +22,8 @@ const users = {
 
 const auth = basicAuth(users);
 
-const database = new loki('party.db')
+const database = new loki('party.db');
+const collection = database.addCollection('guests');
 
 
 //
@@ -42,15 +43,24 @@ server.get('/party', (req, res) => {
 server.post('/register', (req, res) => {
     if (!req.body.firstname || !req.body.lastname) {
         res.sendStatus(BAD_REQUEST);
+    } else if (collection.data.length >= 10) {
+        res.sendStatus(UNAUTHORIZED);
     } else {
-        // TODO: add to the list, send response
-
+        collection.insert({ firstname: req.body.firstname, lastname: req.body.lastname });
         res.sendStatus(OK);
     }
 });
 
 server.get('/guests', auth, (req, res) => {
-    res.sendStatus(OK);
+    const data = collection.data;
+
+    // Remove unnecessary data
+    data.forEach(guest => {
+        delete guest.meta;
+        delete guest.$loki;
+    });
+
+    res.send(data);
 });
 
 
