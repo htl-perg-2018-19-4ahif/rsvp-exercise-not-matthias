@@ -59,11 +59,11 @@ server.get('/party/:partyId', (req, res) => {
 });
 
 server.post('/new_party/:partyId', (req, res) => {
-    if (!req.body.partyId || !req.body.partyTitle || !req.body.partyLocation || !req.body.partyDate) {
+    if (!req.params.partyId || !req.body.partyTitle || !req.body.partyLocation || !req.body.partyDate) {
         res.sendStatus(BAD_REQUEST);
     } else {
         collection.insert({
-            partyId: req.body.partyId,
+            partyId: req.params.partyId,
             partyData: {
                 title: req.body.partyTitle,
                 location: req.body.partyLocation,
