@@ -2,9 +2,9 @@
   "name": "9020-birthday-party",
   "version": "1.0.0",
   "description": "Sample for mobile computing course at HTL Perg",
-  "main": "app.ts",
+  "main": "src/app.ts",
   "scripts": {
-    "start": "ts-node app.ts"
+    "start": "ts-node src/app.ts"
   },
   "author": "Matthias Heiden",
   "license": "MIT",
