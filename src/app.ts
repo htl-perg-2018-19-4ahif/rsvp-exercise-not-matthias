@@ -75,7 +75,7 @@ server.post('/new_party/:partyId', (req, res) => {
     } else {
         const party = collection.data.find(party => party.partyId === req.params.partyId);
 
-        if(!party) {
+        if (!party) {
             collection.insert({
                 partyId: req.params.partyId,
                 partyData: {
@@ -85,7 +85,7 @@ server.post('/new_party/:partyId', (req, res) => {
                 },
                 guests: []
             });
-    
+
             res.sendStatus(OK);
         } else {
             res.sendStatus(BAD_REQUEST);
@@ -122,8 +122,6 @@ server.get('/guests/:partyId', auth, (req, res) => {
             const { partyId, partyData, guests } = party;
 
             res.send({
-                partyId: partyId,
-                partyData: partyData,
                 guests: guests
             });
         } else {

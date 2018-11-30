@@ -1,0 +1,40 @@
+<style>
+    .nav-item {
+        cursor: pointer;
+    }
+</style>
+
+<nav class="navbar navbar-expand-sm navbar-light bg-light">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand">RSVP</a>
+        </div>
+
+        <div class="collapse navbar-collapse">
+            <a class="nav-item nav-link text-dark" id="register">Register</a>
+            <a class="nav-item nav-link text-dark" id="guests">Guests</a>
+            <a class="nav-item nav-link text-dark" id="party_information">Party Information</a>
+            <a class="nav-item nav-link text-dark" id="new_party">New Party</a>
+        </div>
+    </div>
+</nav>
+
+<script>
+    $(document).ready(() => {
+        $("#register").mouseup(() => {
+            $("#content").load("sites/register.html");
+        });
+
+        $("#guests").mouseup(() => {
+            $("#content").load("sites/guests.html");
+        });
+
+        $("#party_information").mouseup(() => {
+            $("#content").load("sites/party_information.html");
+        });
+
+        $("#new_party").mouseup(() => {
+            $("#content").load("sites/new_party.html");
+        });
+    });
+</script>

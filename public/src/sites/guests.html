@@ -1,0 +1,98 @@
+<h2>Guests</h2>
+<hr />
+
+<div id="form" class="p-5 bg-light shadow rounded">
+    <form method="post">
+
+        <!-- partyId -->
+        <div class="form-group">
+            <label for="partyId">Party ID</label>
+            <input type="number" class="form-control" id="partyId" min="0" placeholder="0" required>
+        </div>
+
+        <hr />
+
+        <!-- username -->
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" id="username" placeholder="admin" autocomplete="off" required>
+        </div>
+
+        <!-- password -->
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" placeholder="•••••" autocomplete="off" required>
+        </div>
+
+        <button type="button" id="send" class="btn btn-default btn-block">Send</button>
+    </form>
+</div>
+
+<!-- Output data -->
+<div id="output" class="mt-5 p-5 bg-light shadow rounded" style="display: none;">
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Firstname</th>
+                <th scope="col">Lastname</th>
+            </tr>
+        </thead>
+
+        <tbody>
+        </tbody>
+    </table>
+</div>
+
+
+<script>
+    $("#send").on("click", () => {
+        const partyId = $("#partyId").val();
+        const username = $("#username").val();
+        const password = $("#password").val();
+
+        try {
+            // Encode the username + password
+            const encoded = btoa(`${username}:${password}`);
+
+            if (partyId && username && password) {
+                fetch(`http://localhost:8080/guests/${partyId}`, {
+                    method: "get",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Basic ' + encoded
+                    }
+                }).then((response) => {
+
+                    // Parse response
+                    switch (response.status) {
+                        case 200: // Ok
+                            response.json().then(json => {
+                                $("#output").show();
+                                $("#form").hide();
+
+                                json.guests.forEach((guest, i) => {
+                                    $("tbody").append(`<tr>`);
+                                    $("tbody").append(`<th scope="row">${i + 1}</th>`);
+                                    $("tbody").append(`<td>${guest.firstname}</td>`);
+                                    $("tbody").append(`<td>${guest.lastname}</td>`);
+                                    $("tbody").append(`</tr>`);
+                                });
+                            }).catch(console.log);
+
+                            break;
+
+                        case 400: // Bad Request
+                            showError("Invalid party id.");
+                            break;
+                    }
+                }).catch(function (error) {
+                    showError("Failed to get guests.");
+                });
+            }
+        } catch (error) {
+            showError("Invalid characters in username or password.");
+        }
+    });
+</script>

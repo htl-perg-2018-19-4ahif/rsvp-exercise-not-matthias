@@ -1,0 +1,68 @@
+<h2>Register</h2>
+<hr />
+
+<div class="p-5 bg-light shadow rounded">
+    <form method="post">
+        <!-- partyId -->
+        <div class="form-group">
+            <label for="partyId">Party ID</label>
+            <input type="number" class="form-control" id="partyId" min="0" placeholder="0" required>
+        </div>
+
+        <hr />
+
+        <!-- firstname -->
+        <div class="form-group">
+            <label for="firstname">Firstname</label>
+            <input type="text" class="form-control" id="firstname" placeholder="Max" autocomplete="off" required>
+        </div>
+
+        <!-- firstname -->
+        <div class="form-group">
+            <label for="lastname">Lastname</label>
+            <input type="text" class="form-control" id="lastname" placeholder="Mustermann" autocomplete="off" required>
+        </div>
+
+        <button type="button" id="send" class="btn btn-default btn-block">Send</button>
+    </form>
+</div>
+
+
+<script>
+    $("#send").on("click", () => {
+        const partyId = $("#partyId").val();
+        const firstname = $("#firstname").val();
+        const lastname = $("#lastname").val();
+
+        if (partyId && firstname && lastname) {
+            fetch(`http://localhost:8080/register/${partyId}`, {
+                method: "post",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    "firstname": firstname,
+                    "lastname": lastname
+                })
+            }).then((response) => {
+
+                switch (response.status) {
+                    case 200: // Ok
+                        showSuccess("Registration sent.");
+                        break;
+
+                    case 400: // Bad Request
+                        showError("Party not found.");
+                        break;
+
+                    case 401: // Unauthorized
+                        showInfo("No invites left.");
+                        break;
+                }
+            }).catch(function (error) {
+                showError("Failed to register.");
+            });
+        }
+    });
+</script>

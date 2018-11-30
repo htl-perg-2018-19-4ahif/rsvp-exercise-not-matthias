@@ -1,0 +1,75 @@
+<h2>Party Information</h2>
+<hr />
+
+<div class="p-5 bg-light shadow rounded">
+    <form method="post">
+        <!-- partyId -->
+        <div class="form-group">
+            <label for="partyId">Party ID</label>
+            <input type="number" class="form-control" id="partyId" min="0" placeholder="0">
+        </div>
+
+        <button type="button" id="send" class="btn btn-default btn-block">Send</button>
+    </form>
+</div>
+
+<!-- Output data -->
+<div id="output" class="mt-5 p-5 bg-light shadow rounded" style="display: none;">
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Value</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td>Title</td>
+                <td id="title"></td>
+            </tr>
+
+            <tr>
+                <td>Date</td>
+                <td id="date"></td>
+            </tr>
+
+            <tr>
+                <td>Location</td>
+                <td id="location"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<script>
+    $("#send").on("click", () => {
+        const partyId = $("#partyId").val();
+
+        if (partyId) {
+            fetch(`http://localhost:8080/party/${partyId}`, {
+                method: "get"
+            }).then(response => {
+                switch (response.status) {
+                    case 200: // Ok
+                        response.json().then(json => {
+                            $("#output").show();
+
+                            $("#title").text(json.title);
+                            $("#date").text(json.date);
+                            $("#location").text(json.location);
+                        }).catch(() => showError("Invalid json."));
+
+                        break;
+
+                    case 400: // Bad Request
+                        showError("Invalid party id.");
+                        break;
+                }
+            }).catch(function (error) {
+                showError("Failed to get party information.");
+            });
+        }
+    });
+</script>

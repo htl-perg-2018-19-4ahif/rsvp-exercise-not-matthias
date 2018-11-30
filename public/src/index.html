@@ -1,0 +1,39 @@
+<html>
+
+<head>
+    <title>Birthday Party - RSVP</title>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/fonts.css" type="text/css">
+    <link rel="stylesheet" href="css/index.css" type="text/css">
+
+    <!-- External stylesheets -->
+    <link rel="stylesheet" href="libs/animate.css/animate.css" />
+    <link rel="stylesheet" href="libs/bootstrap/css/bootstrap.min.css">
+
+    <!-- External libraries -->
+    <script src="libs/popper.min.js"></script>
+    <script src="libs/jquery/jquery-3.3.1.js"></script>
+    <script src="libs/bootstrap/js/bootstrap.min.js"></script>
+    <script src="libs/bootstrap-notify/bootstrap-notify.min.js"></script>
+    <script src="libs/bootstrap-notify/notify_functions.js"></script>
+</head>
+
+<body>
+    <div id="nav"></div>
+
+    <div id="content" class="container pt-5 pb-5"></div>
+
+    <script>
+        $(document).ready(() => {
+            $("#nav").load("sites/partials/nav.html");
+            $("#content").load("sites/register.html");
+        });
+    </script>
+</body>
+
+</html>

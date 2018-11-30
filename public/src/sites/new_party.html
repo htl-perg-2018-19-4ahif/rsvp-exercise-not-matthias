@@ -1,0 +1,73 @@
+<h2>New Party</h2>
+<hr />
+
+<div class="p-5 bg-light shadow rounded">
+    <form method="post">
+        <!-- partyId -->
+        <div class="form-group">
+            <label for="partyId">Party Id</label>
+            <input type="number" class="form-control" id="partyId" min="0" placeholder="0" required>
+        </div>
+
+        <!-- Title-->
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" id="title" placeholder="My Birthday Party" autocomplete="off"
+                required>
+        </div>
+
+        <!-- Date -->
+        <div class="form-group">
+            <label for="date">Date</label>
+            <input type="date" class="form-control" id="date" placeholder="2019-01-01" autocomplete="off" required>
+        </div>
+
+        <!-- Location -->
+        <div class="form-group">
+            <label for="location">Location</label>
+            <input type="text" class="form-control" id="location" placeholder="at my place" autocomplete="off" required>
+        </div>
+
+        <button id="send" class="btn btn-default btn-block">Send</button>
+    </form>
+</div>
+
+
+<script>
+    $("#send").on("click", () => {
+        const partyId = $("#partyId").val();
+        const title = $("#title").val();
+        const date = $("#date").val();
+        const location = $("#location").val();
+
+        if (partyId && title && date && location) {
+            fetch(`http://localhost:8080/new_party/${partyId}`, {
+                method: "post",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    "partyId": partyId,
+                    "partyTitle": title,
+                    "partyDate": date,
+                    "partyLocation": location
+                })
+            }).then((response) => {
+                console.log(response);
+
+                switch (response.status) {
+                    case 200: // Ok
+                        showSuccess("New party created.");
+                        break;
+
+                    case 400: // Bad Request
+                        showError("Party id already existing.");
+                        break;
+                }
+            }).catch(function (error) {
+                showError("Failed to register.");
+            });
+        }
+    });
+</script>
