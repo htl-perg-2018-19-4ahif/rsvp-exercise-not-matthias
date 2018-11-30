@@ -1,16 +1,16 @@
-export interface PartyData {
+export interface IPartyData {
     title: string;
     location: string;
     date: Date;
 }
 
-export interface Guest {
+export interface IGuest {
     firstname: string;
     lastname: string;
 }
 
-export interface Party {
+export interface IParty {
     partyId: number;
-    partyData: PartyData;
-    guests: Guest[];
+    partyData: IPartyData;
+    guests: IGuest[];
 };

@@ -3,7 +3,7 @@ import * as express from 'express';
 import * as basicAuth from 'express-basic-auth';
 import { OK, BAD_REQUEST, UNAUTHORIZED, getStatusText } from 'http-status-codes';
 
-import { PartyData, Party, Guest } from './birthday';
+import { IPartyData, IParty, IGuest } from './birthday';
 
 
 //
@@ -30,7 +30,7 @@ const lokiConfig = {
 
 const database = new loki('birthday-party.db', lokiConfig);
 
-let collection: Collection<Party>;
+let collection: Collection<IParty>;
 
 
 //
