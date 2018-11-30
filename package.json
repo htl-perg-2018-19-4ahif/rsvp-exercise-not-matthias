@@ -4,12 +4,14 @@
   "description": "Sample for mobile computing course at HTL Perg",
   "main": "src/app.ts",
   "scripts": {
-    "start": "ts-node src/app.ts",
+    "start": "concurrently \"npm:server\" \"npm:web\"",
+    "server": "ts-node src/app.ts",
     "web": "http-server -p 80 --silent -o"
   },
   "author": "Matthias Heiden",
   "license": "MIT",
   "dependencies": {
+    "concurrently": "^4.1.0",
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "express-basic-auth": "^1.1.6",
