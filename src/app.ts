@@ -1,10 +1,10 @@
 import * as loki from 'lokijs';
 import * as express from 'express';
+import * as cors from 'cors';
 import * as basicAuth from 'express-basic-auth';
 import { OK, BAD_REQUEST, UNAUTHORIZED, getStatusText } from 'http-status-codes';
 
 import { IPartyData, IParty, IGuest } from './birthday';
-
 
 //
 // Constants
@@ -49,6 +49,8 @@ function onDatabaseLoad() {
 const server = express();
 
 server.use(express.json());
+server.use(cors());
+server.options('*', cors());
 
 
 //
