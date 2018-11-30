@@ -55,24 +55,39 @@ server.use(express.json());
 // Requests
 //
 server.get('/party/:partyId', (req, res) => {
-    // res.send(JSON.stringify(party.partyData));
+    if (!req.params.partyId) {
+        res.sendStatus(BAD_REQUEST);
+    } else {
+        const party = collection.data.find(party => party.partyId === req.params.partyId);
+
+        if (party)
+            res.send(party.partyData);
+        else
+            res.sendStatus(BAD_REQUEST);
+    }
 });
 
 server.post('/new_party/:partyId', (req, res) => {
     if (!req.params.partyId || !req.body.partyTitle || !req.body.partyLocation || !req.body.partyDate) {
         res.sendStatus(BAD_REQUEST);
     } else {
-        collection.insert({
-            partyId: req.params.partyId,
-            partyData: {
-                title: req.body.partyTitle,
-                location: req.body.partyLocation,
-                date: req.body.partyDate
-            },
-            guests: []
-        });
+        const party = collection.data.find(party => party.partyId === req.params.partyId);
 
-        res.sendStatus(OK);
+        if(!party) {
+            collection.insert({
+                partyId: req.params.partyId,
+                partyData: {
+                    title: req.body.partyTitle,
+                    location: req.body.partyLocation,
+                    date: req.body.partyDate
+                },
+                guests: []
+            });
+    
+            res.sendStatus(OK);
+        } else {
+            res.sendStatus(BAD_REQUEST);
+        }
     }
 });
 
@@ -82,14 +97,38 @@ server.post('/register/:partyId', (req, res) => {
     } else if (collection.data.length >= 10) {
         res.sendStatus(UNAUTHORIZED);
     } else {
-        // party.guests.push({ firstname: req.body.firstname, lastname: req.body.lastname });
-        // collection.update(party);
-        res.sendStatus(OK);
+        let party = collection.data.find(party => party.partyId === req.params.partyId);
+
+        if (party) {
+            party.guests.push({ firstname: req.body.firstname, lastname: req.body.lastname });
+            collection.update(party);
+
+            res.sendStatus(OK);
+        } else {
+            res.sendStatus(BAD_REQUEST);
+        }
     }
 });
 
 server.get('/guests/:partyId', auth, (req, res) => {
-    // res.send(collection.data.filter(guest => delete guest.meta && delete guest.$loki));
+    if (!req.params.partyId) {
+        res.sendStatus(BAD_REQUEST);
+    } else {
+        const party = collection.data.find(party => party.partyId === req.params.partyId);
+
+        if (party) {
+            const { partyId, partyData, guests } = party;
+
+            res.send({
+                partyId: partyId,
+                partyData: partyData,
+                guests: guests
+            });
+        } else {
+            res.sendStatus(BAD_REQUEST);
+        }
+
+    }
 });
 
 
