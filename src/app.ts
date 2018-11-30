@@ -4,7 +4,7 @@ import * as cors from 'cors';
 import * as basicAuth from 'express-basic-auth';
 import { OK, BAD_REQUEST, UNAUTHORIZED, getStatusText } from 'http-status-codes';
 
-import { IPartyData, IParty, IGuest } from './birthday';
+import { IParty } from './interfaces';
 
 //
 // Constants
