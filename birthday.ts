@@ -1,5 +1,5 @@
 export interface Party {
-    title,
-    location,
-    date
-}
+    title: string,
+    location: string,
+    date: Date
+};

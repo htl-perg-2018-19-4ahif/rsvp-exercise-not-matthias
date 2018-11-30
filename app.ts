@@ -14,7 +14,7 @@ const port = 8080;
 const party: Party = {
     title: "Matthias' Awesome Birthday Party",
     location: "Weistrach",
-    date: "1.1.2020"
+    date: new Date("1.1.2020")
 };
 
 
@@ -23,7 +23,7 @@ const users = {
     users: { 'admin': 'admin' }
 };
 
-const auth = basicAuth(users);
+const auth: express.RequestHandler = basicAuth(users);
 
 
 // Loki
