@@ -94,9 +94,9 @@ server.post('/new_party/:partyId', (req, res) => {
 });
 
 server.post('/register/:partyId', (req, res) => {
-    if (!req.body.firstname || !req.body.lastname) {
+    if (!req.params.partyId || !req.body.firstname || !req.body.lastname) {
         res.sendStatus(BAD_REQUEST);
-    } else if (collection.data.length >= 10) {
+    } else if (collection.data.find(party => party.partyId === req.params.partyId).guests.length >= 10) {
         res.sendStatus(UNAUTHORIZED);
     } else {
         let party = collection.data.find(party => party.partyId === req.params.partyId);
