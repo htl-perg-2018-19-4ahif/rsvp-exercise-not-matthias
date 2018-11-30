@@ -1,21 +1,15 @@
 import * as loki from 'lokijs';
 import * as express from 'express';
 import * as basicAuth from 'express-basic-auth';
-import { OK, BAD_REQUEST, UNAUTHORIZED } from 'http-status-codes';
+import { OK, BAD_REQUEST, UNAUTHORIZED, getStatusText } from 'http-status-codes';
 
-import { Party } from './birthday';
+import { PartyData, Party, Guest } from './birthday';
 
 
 //
 // Constants
 //
 const port = 8080;
-
-const party: Party = {
-    title: "Matthias' Awesome Birthday Party",
-    location: "Weistrach",
-    date: new Date("1.1.2020")
-};
 
 
 // Basic Auth
@@ -36,15 +30,15 @@ const lokiConfig = {
 
 const database = new loki('birthday-party.db', lokiConfig);
 
-let collection;
+let collection: Collection<Party>;
 
 
 //
 // Functions
 //
 function onDatabaseLoad() {
-    if (!(collection = database.getCollection('guests'))) {
-        collection = database.addCollection('guests');
+    if (!(collection = database.getCollection('parties'))) {
+        collection = database.addCollection('parties');
     }
 }
 
@@ -60,23 +54,42 @@ server.use(express.json());
 //
 // Requests
 //
-server.get('/party', (req, res) => {
-    res.send(JSON.stringify(party));
+server.get('/party/:partyId', (req, res) => {
+    // res.send(JSON.stringify(party.partyData));
 });
 
-server.post('/register', (req, res) => {
+server.post('/new_party/:partyId', (req, res) => {
+    if (!req.body.partyId || !req.body.partyTitle || !req.body.partyLocation || !req.body.partyDate) {
+        res.sendStatus(BAD_REQUEST);
+    } else {
+        collection.insert({
+            partyId: req.body.partyId,
+            partyData: {
+                title: req.body.partyTitle,
+                location: req.body.partyLocation,
+                date: req.body.partyDate
+            },
+            guests: []
+        });
+
+        res.sendStatus(OK);
+    }
+});
+
+server.post('/register/:partyId', (req, res) => {
     if (!req.body.firstname || !req.body.lastname) {
         res.sendStatus(BAD_REQUEST);
     } else if (collection.data.length >= 10) {
         res.sendStatus(UNAUTHORIZED);
     } else {
-        collection.insert({ firstname: req.body.firstname, lastname: req.body.lastname });
+        // party.guests.push({ firstname: req.body.firstname, lastname: req.body.lastname });
+        // collection.update(party);
         res.sendStatus(OK);
     }
 });
 
-server.get('/guests', auth, (req, res) => {
-    res.send(collection.data.filter(guest => delete guest.meta && delete guest.$loki));
+server.get('/guests/:partyId', auth, (req, res) => {
+    // res.send(collection.data.filter(guest => delete guest.meta && delete guest.$loki));
 });
 
 
