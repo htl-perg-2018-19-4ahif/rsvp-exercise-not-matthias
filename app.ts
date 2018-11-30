@@ -127,7 +127,6 @@ server.get('/guests/:partyId', auth, (req, res) => {
         } else {
             res.sendStatus(BAD_REQUEST);
         }
-
     }
 });
 
