@@ -54,7 +54,6 @@
                     "partyLocation": location
                 })
             }).then((response) => {
-                console.log(response);
 
                 switch (response.status) {
                     case 200: // Ok
@@ -62,7 +61,7 @@
                         break;
 
                     case 400: // Bad Request
-                        showError("Party id already existing.");
+                        showError(`Party with id ${partyId} already exists.`);
                         break;
                 }
             }).catch(function (error) {
