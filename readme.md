@@ -47,7 +47,7 @@ docker run -p 8080:8080 -d not-matthias/rsvp-api
 ```
 
 ### Print docker processes
-```bash
+```docker
 docker ps
 
 # Example:
