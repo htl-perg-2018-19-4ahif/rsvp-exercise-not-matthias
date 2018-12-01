@@ -6,7 +6,7 @@ function showError(message) {
         message: message
     }, {
         type: 'danger',
-        delay: 30000,
+        delay: 2000,
         mouse_over: "pause",
         animate: {
             enter: 'animated bounceInRight',
@@ -23,7 +23,7 @@ function showWarning(message) {
         message: message
     }, {
         type: 'warning',
-        delay: 30000,
+        delay: 2000,
         mouse_over: "pause",
         animate: {
             enter: 'animated bounceInRight',
@@ -40,7 +40,7 @@ function showInfo(message) {
         message: message
     }, {
         type: 'info',
-        delay: 30000,
+        delay: 2000,
         mouse_over: "pause",
         animate: {
             enter: 'animated bounceInRight',
@@ -57,7 +57,7 @@ function showSuccess(message) {
         message: message
     }, {
         type: 'success',
-        delay: 30000,
+        delay: 2000,
         mouse_over: "pause",
         animate: {
             enter: 'animated bounceInRight',
