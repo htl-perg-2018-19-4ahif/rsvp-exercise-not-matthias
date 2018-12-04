@@ -119,7 +119,7 @@ server.get('/guests/:partyId', auth, (req, res) => {
         const party = collection.data.find(party => party.partyId === req.params.partyId);
 
         if (party) {
-            const { partyId, partyData, guests } = party;
+            const { guests } = party;
 
             res.send({
                 guests: guests
