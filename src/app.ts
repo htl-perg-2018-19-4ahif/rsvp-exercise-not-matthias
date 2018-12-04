@@ -57,7 +57,7 @@ server.options('*', cors());
 // Requests
 //
 server.get('/party/:partyId', (req, res) => {
-    if (!req.params.partyId) {
+    if (!parseInt(req.params.partyId)) {
         res.sendStatus(BAD_REQUEST);
     } else {
         const party = collection.data.find(party => party.partyId === req.params.partyId);
@@ -70,7 +70,7 @@ server.get('/party/:partyId', (req, res) => {
 });
 
 server.post('/new_party/:partyId', (req, res) => {
-    if (!req.params.partyId || !req.body.partyTitle || !req.body.partyLocation || !req.body.partyDate) {
+    if (!parseInt(req.params.partyId) || !req.body.partyTitle || !req.body.partyLocation || !req.body.partyDate) {
         res.sendStatus(BAD_REQUEST);
     } else {
         const party = collection.data.find(party => party.partyId === req.params.partyId);
@@ -94,7 +94,7 @@ server.post('/new_party/:partyId', (req, res) => {
 });
 
 server.post('/register/:partyId', (req, res) => {
-    if (!req.params.partyId || !req.body.firstname || !req.body.lastname) {
+    if (!parseInt(req.params.partyId) || !req.body.firstname || !req.body.lastname) {
         res.sendStatus(BAD_REQUEST);
     } else if (collection.data.find(party => party.partyId === req.params.partyId).guests.length >= 10) {
         res.sendStatus(UNAUTHORIZED);
@@ -113,7 +113,7 @@ server.post('/register/:partyId', (req, res) => {
 });
 
 server.get('/guests/:partyId', auth, (req, res) => {
-    if (!req.params.partyId) {
+    if (!parseInt(req.params.partyId)) {
         res.sendStatus(BAD_REQUEST);
     } else {
         const party = collection.data.find(party => party.partyId === req.params.partyId);
