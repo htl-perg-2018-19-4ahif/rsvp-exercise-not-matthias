@@ -4,7 +4,7 @@
   "description": "Sample for mobile computing course at HTL Perg",
   "main": "src/app.ts",
   "scripts": {
-    "start": "concurrently \"npm:server\" \"npm:web\"",
+    "start": "concurrently \"npm:api\" \"npm:web\"",
     "api": "ts-node src/app.ts",
     "web": "http-server -p 80 --silent -o"
   },
